@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:travel_app/misc/colors.dart';
 import 'package:travel_app/widgets/app_large_text.dart';
+import 'package:travel_app/widgets/app_text.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -40,7 +41,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
               ]
             ),
           ),
-          SizedBox(height: screenHeight*0.01,),
+          SizedBox(height: screenHeight*0.04,),
           Container(
             margin: EdgeInsets.only(left: screenWidth*0.03),
             child: AppLargeText(text: "Discover"),
@@ -68,34 +69,79 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
             ),
           ),
           Container(
-            height: screenHeight*0.3,
+            padding: EdgeInsets.only(left: screenWidth*0.03),
+            height: screenHeight*0.45,
             width: double.maxFinite,
             child: TabBarView(
               controller: _tabController,
               children: [
-                Container(
-                  width: screenWidth*0.2,
-                  height: screenHeight*0.3,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: Colors.white,
-                    image: DecorationImage(
-                      image: AssetImage(
-                        "images/mountain.jpg"
+                ListView.builder(
+                  itemCount: 3,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (BuildContext context, int index ){
+                    return Container(
+                      margin: EdgeInsets.only(right: screenWidth*0.03, top: screenHeight*0.02),
+                      width: screenWidth*0.5,
+                      // height: screenHeight*0.4,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.white,
+                        image: DecorationImage(
+                          image: AssetImage(
+                            "images/mountain.jpg"
+                          ),
+                          fit: BoxFit.cover,
+                        ),
                       ),
-                      fit: BoxFit.cover,
+                    );
+                  },
 
-
-                      //1:30
-
-
-                      
-                    ),
-                  ),
                 ),
                 Text("There"),
                 Text("Bye"),
               ]),
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: screenWidth*0.03,vertical: screenHeight*0.02),
+            child:Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                AppLargeText(text: "Explore for more",size: 22,),
+                AppText(text: "See all",color: AppColors.textColor1,)
+              ],
+            ),
+          ),
+          Container(
+            // color: Colors.red,
+            margin: EdgeInsets.symmetric(horizontal: screenWidth*0.03),
+            height: screenHeight*0.12,
+            width: double.maxFinite,
+            child: ListView.builder(
+              itemCount: 4,
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (_,index){
+                return  Container(
+                  margin: EdgeInsets.only(right: screenWidth*0.06),
+                  child: Column(
+                    children: [
+                      Container(
+                        color: Colors.red,
+                        width: screenWidth*0.2,
+                        height: screenHeight*0.08,
+                      ),
+
+                //1:49
+
+                      Container(
+                        child: AppText(
+                          text: "red",
+                          color: AppColors.textColor2,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+            }),
           ),
         ]
       ),
