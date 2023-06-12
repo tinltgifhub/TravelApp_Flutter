@@ -12,6 +12,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
+  var image={
+    "balloning.png":"Balloning",
+    "hiking.png":"Hiking",
+    "kayaking.png":"Kayaking",
+    "snorkling.png":"Snorkling",
+  };
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
@@ -70,7 +76,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
           ),
           Container(
             padding: EdgeInsets.only(left: screenWidth*0.03),
-            height: screenHeight*0.45,
+            height: screenHeight*0.43,
             width: double.maxFinite,
             child: TabBarView(
               controller: _tabController,
@@ -85,7 +91,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                       // height: screenHeight*0.4,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
-                        color: Colors.white,
+                        // color: Colors.white,
                         image: DecorationImage(
                           image: AssetImage(
                             "images/mountain.jpg"
@@ -102,7 +108,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
               ]),
           ),
           Container(
-            margin: EdgeInsets.symmetric(horizontal: screenWidth*0.03,vertical: screenHeight*0.02),
+            margin: EdgeInsets.symmetric(horizontal: screenWidth*0.03,vertical: screenHeight*0.03),
             child:Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -112,8 +118,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
             ),
           ),
           Container(
-            // color: Colors.red,
-            margin: EdgeInsets.symmetric(horizontal: screenWidth*0.03),
+            margin: EdgeInsets.symmetric(horizontal: screenWidth*0.05),
             height: screenHeight*0.12,
             width: double.maxFinite,
             child: ListView.builder(
@@ -121,20 +126,26 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
               scrollDirection: Axis.horizontal,
               itemBuilder: (_,index){
                 return  Container(
-                  margin: EdgeInsets.only(right: screenWidth*0.06),
+                  margin: EdgeInsets.only(right: screenWidth*0.08),
                   child: Column(
                     children: [
                       Container(
-                        color: Colors.red,
-                        width: screenWidth*0.2,
-                        height: screenHeight*0.08,
+                        width: screenWidth*0.14,
+                        height: screenHeight*0.07,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          image: DecorationImage(
+                            image:AssetImage(
+                              'images/'+image.keys.elementAt(index),
+                            ), 
+                            fit: BoxFit.cover,
+                          ),
+                        ),
                       ),
-
-                //1:49
-
+                      SizedBox(height: screenHeight*0.01,),
                       Container(
                         child: AppText(
-                          text: "red",
+                          text: image.values.elementAt(index),
                           color: AppColors.textColor2,
                         ),
                       ),
