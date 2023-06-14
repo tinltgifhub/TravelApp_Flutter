@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:travel_app/cubit/app_cubit_states.dart';
+import 'package:travel_app/cubit/app_cubits.dart';
 import 'package:travel_app/misc/colors.dart';
 import 'package:travel_app/widgets/app_button.dart';
 import 'package:travel_app/widgets/app_text.dart';
@@ -21,7 +24,9 @@ class _DetailPageState extends State<DetailPage> {
     Size screenSize = MediaQuery.of(context).size;
     double screenWidth = screenSize.width;
     double screenHeight = screenSize.height;
-    return Scaffold(
+    return BlocBuilder<AppCubits,CubitStates>(builder: (context,state){
+      DetailState detail=state as DetailState;
+      return Scaffold(
       body: Container(
         width: double.maxFinite,
         height: double.maxFinite,
@@ -35,7 +40,7 @@ class _DetailPageState extends State<DetailPage> {
                 height: screenHeight*0.43,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage('images/mountain.jpg'),
+                    image: NetworkImage('http://mark.bslmeiyu.com/uploads/'+detail.place.img),
                     fit: BoxFit.cover,
                   )
                 ),
@@ -46,7 +51,12 @@ class _DetailPageState extends State<DetailPage> {
               top: screenHeight*0.06,
               child: Row(
                 children: [
-                  IconButton(onPressed: (){}, icon: Icon(Icons.menu),color: Colors.white,),
+                  IconButton(
+                    onPressed: (){
+                      BlocProvider.of<AppCubits>(context).goHome();
+                    }, 
+                    icon: Icon(Icons.menu),color: Colors.white,
+                  ),
                 ],
               ),
             ),
@@ -69,8 +79,8 @@ class _DetailPageState extends State<DetailPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        AppLargeText(text:'Yosemite',color: Colors.black.withOpacity(0.8),),
-                        AppLargeText(text: '\$250',color: AppColors.mainColor,),
+                        AppLargeText(text:detail.place.name,color: Colors.black.withOpacity(0.8),),
+                        AppLargeText(text: '\$'+detail.place.price.toString(),color: AppColors.mainColor,),
                       ],
                     ),
                     SizedBox(height: screenHeight*0.01,),
@@ -78,7 +88,7 @@ class _DetailPageState extends State<DetailPage> {
                       children: [
                         Icon(Icons.location_on,color: AppColors.mainColor,),
                         SizedBox(width: screenWidth*0.01,),
-                        AppText(text: "USA, California",color: AppColors.textColor1,),
+                        AppText(text: detail.place.location,color: AppColors.textColor1,),
                       ],
                     ),
                     SizedBox(height: screenHeight*0.02,),
@@ -86,7 +96,7 @@ class _DetailPageState extends State<DetailPage> {
                       children: [
                         Wrap(
                           children: List.generate(5, (index){
-                            return Icon(Icons.star,color:index<gottenStars? AppColors.starColor:AppColors.textColor2,);
+                            return Icon(Icons.star,color:index<detail.place.stars? AppColors.starColor:AppColors.textColor2,);
                           }),
                         ),
                         SizedBox(width: screenWidth*0.01,),
@@ -111,7 +121,7 @@ class _DetailPageState extends State<DetailPage> {
                             child: AppButtons(
                               size: screenHeight*0.07,
                               color: selectedIndex==index?Colors.white:Colors.black,
-                              backgroundColor:selectedIndex==index?Colors.black : AppColors.buttonBackground,
+                              backgroundColor:selectedIndex==index?Color.fromARGB(255, 46, 53, 61) : AppColors.buttonBackground,
                               borderColor: selectedIndex==index?Colors.black : AppColors.buttonBackground,
                               text: (index+1).toString(),
                             ),
@@ -122,7 +132,7 @@ class _DetailPageState extends State<DetailPage> {
                     SizedBox(height: screenHeight*0.03,),
                     AppLargeText(text: "Description",color: Colors.black.withOpacity(0.8),size: 20,),
                     SizedBox(height: screenHeight*0.01,),
-                    AppText(text: "You must go for a travel. Travelling helps get rid of pressure. Go to the mountain to see the nature.", color: AppColors.mainTextColor,)
+                    AppText(text: detail.place.description, color: AppColors.mainTextColor,)
                   ],
                 ),
               ),
@@ -155,5 +165,7 @@ class _DetailPageState extends State<DetailPage> {
         ),
       ),
     );
+    });
+
   }
 }
